@@ -38,6 +38,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'role_id' => 'required',
+            'document' => 'required',
             'name' => 'required|string|max:255',
             'phone_number' => 'required|numeric',
             'city_id' => 'required|numeric',
@@ -46,6 +47,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
+            'document' => $request->document,
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,

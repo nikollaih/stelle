@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, router, useForm} from '@inertiajs/react';
-import Contratistas from "@/Pages/Contratistas/Index.jsx";
+import Contratistas from "@/Pages/Contratistas/Partials/List.jsx";
 import {useEffect} from "react";
 import {useFilter} from "../../Contexts/FilterContext.jsx";
 import Footer from "@/Components/Footer.jsx";
@@ -26,7 +26,6 @@ export default function Dashboard({ auth, cities, types, contratistas }) {
 
     const handleApplyFilters = () => {
         post(route("dashboard"));
-
     }
 
     return (
@@ -37,7 +36,6 @@ export default function Dashboard({ auth, cities, types, contratistas }) {
             <Head title="Contratistas" />
             <p className="text-center text-white text-3xl font-bold mb-10 max-w-[220px] mx-auto">Contratistas a tu <span className="text-blue-300">medida</span></p>
             <Contratistas contratistas={contratistas} onApplyFilters={handleApplyFilters}/>
-            <Footer />
         </AuthenticatedLayout>
     );
 }

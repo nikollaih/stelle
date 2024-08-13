@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('city_id')->constrained('cities');
             $table->foreignId('role_id')->constrained('roles');
+            $table->bigInteger('document');
             $table->string('name');
             $table->string('phone_number')->nullable();
             $table->string('whatsapp_number')->nullable();
@@ -22,6 +23,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->longText('about')->nullable();
+            $table->boolean('active')->default(0);
+            $table->date('birthdate')->nullable();
+            $table->string('profession')->nullable();
+            $table->date('payment_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
+import TextInput from '@/Components/TextInput.tsx';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AuthLayout from "@/Layouts/AuthLayout.jsx";
 import Select from "@/Components/Select.jsx";
@@ -11,6 +10,7 @@ import Select from "@/Components/Select.jsx";
 export default function Register({cities}) {
     const { data, setData, post, processing, errors, reset } = useForm({
         role_id: 2,
+        document: '',
         name: '',
         email: '',
         city_id: '',
@@ -40,6 +40,25 @@ export default function Register({cities}) {
 
                 <form onSubmit={submit}>
                     <div>
+                        <InputLabel className="text-white" htmlFor="document" value="Número de identificación"/>
+
+                        <TextInput
+                            id="document"
+                            name="document"
+                            value={data.document}
+                            className="mt-1 block w-full"
+                            autoComplete="name"
+                            isFocused={true}
+                            type="number"
+                            placeholder="Ingresa tu número de documento"
+                            onChange={(e) => setData('document', e.target.value)}
+                            required
+                        />
+
+                        <InputError message={errors.name} className="mt-2"/>
+                    </div>
+
+                    <div className="mt-4">
                         <InputLabel className="text-white" htmlFor="name" value="Nombre completo"/>
 
                         <TextInput
@@ -98,7 +117,9 @@ export default function Register({cities}) {
 
                         <Select
                             data={cities}
-                            onChange={(value) => {setData('city_id', value)} }
+                            onChange={(value) => {
+                                setData('city_id', value)
+                            }}
                         />
 
                         <InputError message={errors.city_id} className="mt-2"/>

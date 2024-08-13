@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\City;
+use App\Models\Type;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -12,17 +14,22 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ProfileController extends Controller
-{
+class ProfileController extends Controller {
+
 
     public function view($userId) {
+        $City = new City();
+        $cities = $City->getByState(24);
+        $types = Type::with("Categories")->get();
         $User = new User();
         $profile = $User->Get($userId);
         $profile["services"]["cities"] = unserialize($profile->services->cities);
         $profile["services"]["categories"] = unserialize($profile->services->categories);
 
         return Inertia::render('Contratistas/View', [
-            "profile" => $profile
+            "profile" => $profile,
+            'cities' => $cities,
+            'types' => $types
         ]);
     }
 

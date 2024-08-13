@@ -20,12 +20,18 @@ class User extends Authenticatable
     protected $fillable = [
         'city_id',
         'role_id',
+        'document',
         'name',
         'email',
         'password',
         'phone_number',
         'whatsapp_number',
-        'about'
+        'about',
+        'birthdate',
+        'active',
+        'payment_date',
+        'profile_picture',
+        'profession'
     ];
 
     /**
@@ -51,6 +57,10 @@ class User extends Authenticatable
         ];
     }
 
+    public function Partners() {
+        return $this->belongsToMany(Partner::class);
+    }
+
     public function City() {
         return $this->belongsTo(City::class);
     }
@@ -67,17 +77,19 @@ class User extends Authenticatable
         return User::where('id', '=', $userId)
             ->with('Services')
             ->with('City')
+            ->with('Partners')
             ->first();
     }
 
     public function getWithFilter($city, $categories) {
         return User::where('role_id', 3)
+            ->where('active', 1)
             ->whereHas('Services', function ($query) use ($city, $categories) {
                 if($city) {
                     $query->where('cities', 'like', '%"id";i:' . $city["id"] . '%');
                     $query->where('cities', 'like', '%' . $city["name"] . '%');
                 }
-                if(is_array($categories)){
+                if(is_array($categories) && count($categories) > 0) {
                     foreach ($categories as $category) {
                         $query->where('categories', 'like', '%"id";i:'.$category["id"].'%');
                     }

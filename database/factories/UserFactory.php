@@ -24,6 +24,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'document' => fake()->numberBetween(1095000000, 1970000000),
             'name' => 'Admin',
             'email' => 'stelle@gmail.com',
             'phone_number' => fake()->numberBetween(3100000000, 3230000000),

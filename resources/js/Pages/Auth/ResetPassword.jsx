@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
+import TextInput from '@/Components/TextInput.tsx';
 import { Head, useForm } from '@inertiajs/react';
 import AuthLayout from "@/Layouts/AuthLayout.jsx";
 

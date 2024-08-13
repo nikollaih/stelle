@@ -2,19 +2,34 @@ import {Head, Link} from "@inertiajs/react";
 import Footer from "@/Components/Footer.jsx";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import Contratista from '@/../../public/images/contratista-4.png';
+import Avatar from '@/../../public/images/avatar.png';
 import * as Utilities from '@/Util/Utilities.js';
+import {usePage} from "@inertiajs/react";
+import {useEffect, useState} from "react";
 
 export default function ContratistaView({auth, profile = {}}) {
+    const {props} = usePage();
+    const [profileImage, setProfileImage] = useState(Avatar);
+
+    useEffect(() => {
+        if(profile.profile_picture) {
+            setProfileImage(profile.profile_picture);
+        }
+    }, []);
 
     // Get the cities listing to display them in the "Cobertura" section
     const getCitiesDom = () => {
-        if(profile.services.cities && profile.services.cities.length > 0) {
-            let cities = profile.services.cities;
+        if(props.cities && props.cities.length > 0) {
+            let cities = props.cities;
             return cities.map((city) => {
-                return <span
-                    key={city.name}
-                    className="border-[0.5px] border-gray-400 px-2 py-1 rounded-lg text-gray-700 mr-2">{city.name}</span>
+                let active = (profile.services.cities.some((lCity) => lCity.id === city.id));
+                    if(active) {
+                        return <span
+                            key={city.name}
+                            className={"border-[0.5px] border-gray-400 px-2 py-1 rounded-lg text-gray-700"}>{city.name}</span>
+                    }
+
+                    return null;
             })
         }
 
@@ -23,21 +38,26 @@ export default function ContratistaView({auth, profile = {}}) {
 
 
     const getCategoriesDom = () => {
-        if(profile.services.categories && profile.services.categories.length > 0) {
-            let categories = profile.services.categories;
-            return categories.map((type) => {
+        if (props.types && props.types.length > 0) {
+            let types = props.types;
+            return types.map((type) => {
                 return <div key={type.id}>
                     <p className="font-bold my-2">{type.name}</p>
-                    <div className="gap-2">
+                    <div className="gap-2 flex flex-wrap">
                         {
                             type.categories.map((category, index) => {
-                                return (
-                                    <span
-                                        key={index}
-                                        className="border-[0.5px] border-gray-400 px-2 py-1 rounded-lg text-gray-700 mr-2">
-                                        {category.name}
-                                    </span>
-                                );
+                                let active = (profile.services.categories.some((lCategory) => lCategory.id === category.id));
+
+                                if(active)
+                                    return (
+                                        <span
+                                            key={index}
+                                            className="border-[0.5px] border-gray-400 px-2 py-1 rounded-lg text-gray-700 mr-2">
+                                            {category.name}
+                                        </span>
+                                    );
+
+                                return null;
                             })
                         }
                     </div>
@@ -46,6 +66,12 @@ export default function ContratistaView({auth, profile = {}}) {
         }
 
         return <></>
+    }
+
+    const partnerItem = (partner) => {
+        return <a href={partner.url} target="_blank">
+            <img src={partner.logo} alt={partner.name} className="h-[60px]"/>
+        </a>
     }
 
     return (
@@ -67,7 +93,7 @@ export default function ContratistaView({auth, profile = {}}) {
             <div className="flex-1">
                 <div className="p-6 bg-white rounded-2xl relative mt-[100px] mb-8 max-w-[500px] mx-auto">
                     <img className="absolute w-[150px] h-[150px] left-0 right-0 mx-auto mt-[-100px] rounded-xl"
-                         src={Contratista} alt=""/>
+                         src={profileImage} alt=""/>
                     <div className="mt-16 text-center">
                         <p className="text-black font-bold text-xl">{Utilities.getName(profile.name).firstName}</p>
                         <p className="mb-4">{Utilities.getName(profile.name).lastName}</p>
@@ -80,9 +106,9 @@ export default function ContratistaView({auth, profile = {}}) {
                                       d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
                             </svg>
 
-                            <Link href={"https://wa.me/57" + profile.whatsapp_number}>
+                            <a target="_blank" href={"https://wa.me/57" + profile.whatsapp_number}>
                                 <p className="text-white">Escribir al whatsapp</p>
-                            </Link>
+                            </a>
                         </PrimaryButton>
                     </div>
                 </div>
@@ -97,16 +123,24 @@ export default function ContratistaView({auth, profile = {}}) {
                     {getCategoriesDom()}
                 </div>
 
-                <div className="p-6 bg-white rounded-2xl relative max-w-[500px] mx-auto">
+                <div className="p-6 bg-white rounded-2xl relative mb-8 max-w-[500px] mx-auto">
                     <p className="text-black font-bold text-xl mb-4">Cobertura</p>
-                    <div className="gap-2">
+                    <div className="flex flex-wrap gap-2">
                         {getCitiesDom()}
                     </div>
                 </div>
+
+                {
+                    profile.partners.length > 0 &&  <div className="p-6 bg-white rounded-2xl relative mb-8  max-w-[500px] mx-auto">
+                        <p className="text-black font-bold text-xl mb-4">Aliados</p>
+                        <div className="p-4 bg-white rounded-md flex gap-4 flex-wrap">
+                            {
+                                profile.partners.map((partner) => partnerItem(partner))
+                            }
+                        </div>
+                    </div>
+                }
             </div>
-
-
-            <Footer/>
         </AuthenticatedLayout>
     )
 }

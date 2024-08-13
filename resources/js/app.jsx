@@ -5,6 +5,8 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {FilterProvider} from "../Contexts/FilterContext.jsx";
+import {ModalProvider} from "../Contexts/ModalContext.jsx";
+import { Toaster } from 'sonner'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -14,9 +16,14 @@ createInertiaApp({
     setup({ el, App, props }) {
         const root = createRoot(el);
 
-        root.render(<FilterProvider>
-            <App {...props} />
-        </FilterProvider>);
+        root.render(
+            <FilterProvider>
+                <ModalProvider>
+                    <Toaster position="top-left" richColors />
+                    <App {...props} />
+                </ModalProvider>
+            </FilterProvider>
+        );
     },
     progress: {
         color: '#4B5563',

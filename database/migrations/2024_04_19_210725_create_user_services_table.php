@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('user_services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->longText('cities');
-            $table->longText('categories');
+            $table->longText('cities')->nullable();
+            $table->longText('categories')->nullable();
             $table->timestamps();
         });
     }

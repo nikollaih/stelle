@@ -19,8 +19,8 @@ export default function Authenticated({ children, showMenu = true }) {
                     (props.auth?.user?.role_id === 1 && showMenu) &&
                     <ol className="hidden list-none gap-4 text-white text-xl  md:flex">
                         <li className="">
-                            <Link href={route('dashboard')}
-                                  className={(route().current() === "dashboard" || !route().current()) ? `text-blue-300 font-bold` : ``}>Inicio</Link>
+                            <a href={route('dashboard')}
+                                  className={(route().current() === "dashboard" || !route().current()) ? `text-blue-300 font-bold` : ``}>Inicio</a>
                         </li>
                         <li>
                             <Link href={route('contratista.index')}
@@ -34,11 +34,6 @@ export default function Authenticated({ children, showMenu = true }) {
                 }
 
                 <div className="flex gap-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                         stroke="currentColor" className="w-7 h-7 text-white cursor-pointer">
-                        <path strokeLinecap="round" strokeLinejoin="round"
-                              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                    </svg>
                     <Link href={route('logout')} method="post" as="button">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                              stroke="currentColor" className="w-7 h-7 text-white cursor-pointer">

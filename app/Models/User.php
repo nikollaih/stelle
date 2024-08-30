@@ -83,6 +83,7 @@ class User extends Authenticatable
 
     public function getWithFilter($city, $categories) {
         return User::where('role_id', 3)
+            ->with("Services")
             ->where('active', 1)
             ->whereHas('Services', function ($query) use ($city, $categories) {
                 if($city) {

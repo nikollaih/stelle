@@ -23,8 +23,6 @@ class ProfileController extends Controller {
         $types = Type::with("Categories")->get();
         $User = new User();
         $profile = $User->Get($userId);
-        $profile["services"]["cities"] = unserialize($profile->services->cities);
-        $profile["services"]["categories"] = unserialize($profile->services->categories);
 
         return Inertia::render('Contratistas/View', [
             "profile" => $profile,

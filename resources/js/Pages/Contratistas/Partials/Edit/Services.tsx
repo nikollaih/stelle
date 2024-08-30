@@ -15,10 +15,10 @@ const EditServices = () => {
     const itemService = (type) => {
         return <div key={type.id}>
             <p className="text-white text-lg mt-6 mb-2">{type.name}</p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
                 {
                     type.categories.map((item) => {
-                            let active = data.categories.some((cat) => cat.id === item.id);
+                            let active = data.categories.some((cat: { id: number, name: string }) => cat.id === item.id);
                             return <div
                                 key={item.id}
                                 className={"border-white px-2 py-1 cursor-pointer rounded-md hover:bg-blue-300  hover:text-black " + (active ? "bg-blue-300 text-black" : "text-white")}

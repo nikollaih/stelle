@@ -3,6 +3,7 @@
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ContratistaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TypeController;
@@ -22,6 +23,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/guestDashboard', [GuestController::class, 'index'])->name('guest.dashboard');
+Route::post('/guestDashboard', [GuestController::class, 'index'])->name('guest.dashboard');
 Route::post('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -30,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::prefix('contratistas')->group(function() {
         Route::get('/', [ContratistaController::class, 'index'])->name('contratista.index');
         Route::get('/create', [ContratistaController::class, 'create'])->name('contratista.create');

@@ -6,14 +6,21 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput.tsx';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AuthLayout from "@/Layouts/AuthLayout.jsx";
-
+import { usePage } from "@inertiajs/react";
 
 export default function Login({ status, canResetPassword }) {
+    const props = usePage();
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
         remember: false,
     });
+
+    useEffect(() => {
+        if(props?.auth?.user){
+            navigate("dashboard");
+        }
+    }, [props])
 
     useEffect(() => {
         return () => {

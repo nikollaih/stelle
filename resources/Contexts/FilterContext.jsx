@@ -33,7 +33,10 @@ export const FilterProvider = ({ children }) => {
                 const { categories, ...newItem } = item;
                 currentFilters.type = exists >= 0 ? [] : [newItem];
                 allFilters.categories = exists >= 0 ? [] : item.categories;
-                currentFilters.categories = [];
+                if(categories.length > 0)
+                    currentFilters.categories = [categories[0]];
+                else
+                    currentFilters.categories = [];
                 break;
             case "categories":
                 currentFilters.categories = updateArray(currentFilters.categories, exists, item);
@@ -55,7 +58,9 @@ export const FilterProvider = ({ children }) => {
         if (index >= 0) {
             newArray.splice(index, 1);
         } else {
-            newArray.push(item);
+            if(newArray.length < 3) {
+                newArray.push(item);
+            }
         }
         return newArray;
     };

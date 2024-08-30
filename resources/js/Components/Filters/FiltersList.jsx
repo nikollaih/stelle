@@ -1,17 +1,15 @@
 import React from 'react';
 import FilterItem from "@/Components/Filters/FilterItem.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import { useFilter } from "../../../Contexts/FilterContext.jsx";
-import Swal from "sweetalert2";
+import {useFilter} from "../../../Contexts/FilterContext.jsx";
 
 export default function FiltersList({ applyFilters }) {
     const { filters, appliedFilters, clearFilters } = useFilter();
 
     const renderFilters = (filterType) => {
-        const filterItems = appliedFilters[filterType].map((item) => (
-            <FilterItem key={item.id} item={item} type={filterType} active={true} />
+        return appliedFilters[filterType].map((item) => (
+            <FilterItem key={item.id} item={item} type={filterType} active={true}/>
         ));
-        return filterItems;
     };
 
     const handleApplyFilter = () => {
@@ -24,7 +22,10 @@ export default function FiltersList({ applyFilters }) {
                 <div className="mb-10">
                     <div className="flex justify-between">
                         <p className="text-white text-xl font-bold mb-4">Filtros aplicados</p>
-                        <p onClick={clearFilters} className="text-white cursor-pointer">Limpiar filtros</p>
+                        <div className="flex gap-4 items-center">
+                            <p onClick={applyFilters} className="text-white cursor-pointer">Cerrar</p>
+                            <p onClick={clearFilters} className="text-white cursor-pointer">Limpiar filtros</p>
+                        </div>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {renderFilters('location')}

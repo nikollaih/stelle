@@ -4,16 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ContratistaCreateRequest;
 use App\Http\Requests\ContratistaUpdateRequest;
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\City;
 use App\Models\Partner;
 use App\Models\Type;
 use App\Models\User;
 use App\Models\UserService;
 use App\Services\ImageService;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 

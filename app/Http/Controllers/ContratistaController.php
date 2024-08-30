@@ -67,10 +67,7 @@ class ContratistaController extends ProfileController
         $partners = Partner::all();
 
         // Asegurando que services es un objeto y no un array
-        if ($profile->services !== null) {
-            $profile->services->cities = unserialize($profile->services->cities) ?? [];
-            $profile->services->categories = unserialize($profile->services->categories) ?? [];
-        } else {
+        if ($profile->services == null) {
             $profile->services = (object) [
                 'cities' => [],
                 'categories' => []

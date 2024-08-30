@@ -23,6 +23,9 @@ class ImageService
             // Save the optimized image
             Storage::put('public/'.$directory.'/' . $filename, (string) $image->encode());
 
+            \Log::info('File path: ' . $path);
+            \Log::info('File URL: ' . Storage::url($path));
+
             // Retornar la URL de la imagen
             return Storage::url($path);
         } catch (\Exception $e) {
